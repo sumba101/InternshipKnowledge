@@ -1,0 +1,75 @@
+horizontal v vertical scaling (more servers vs bigger better servers)
+load balancing req v not needed
+resistent to failures v single point of failure
+network calls to communicate v inter process communication which is faster
+scales well as users increase v doesnt scale well
+
+reality what is used is a hybrid between horizontal and vertical scaling
+
+load balancing and consistent hashing
+consistent hashing method is the circular hashing method that takes cares of cases where servers fail
+virtual copies of servers are placed in the circle to better even out the load produced by say k different hash functions
+
+Message Queue
+Assume servers for a pizza shop and we have a case of server failure
+we need to send the pending orders to other shops to take care of the orders
+since we need the orders to persist inspite of power/server failures
+solution
+have a notifier which checks if the servers are alive, if it detects one of the servers is dead it distributes the pending orders of said server on the database to the others
+it can be load balanced to ensure proper spread
+This is what is encapsulated as message Queue
+
+microservices and monoliths
+  this is not very clear
+  must be added/ learnt later
+
+database sharding
+    each database server is assigned a shard of data limits
+    eg suppose we have ids from 0 to 50k, 1k to 2k maybe handed by one server, 3 to 4 may be handled by another
+    eg tinder could shard based upon location
+    There can be a manager in each shard mapping data to locations in it
+    you can maybe index inside the shard based upon age
+    problems with shards is
+      joints accross shards, eg if you are in two locations like hyd and chennai
+      master could fail
+          solution is to have multiple slaves, one of who will takeover the role of master
+
+Netflix case study
+  They have to maintain different formats of video which must be of different qualities
+
+what netflix does is splits videos into chunks of say 3 seconds, and sends chunks of data accordingly
+however the problem with this is if there is an extended action scene going on, this method would cause lagging
+to avoid this netflix started splitting based upon "scenes"
+if you arbitrarily go to points of a movie, netflix says its a sparse movie hence it gives only data of the location u at
+if you watch persistently, it fetches alot of data ahead and throws it at you
+
+netflix basically has a box which is basically a drive locally in each country with 90% of usually accessed data from that country
+this ensures indian media like sacred games is accessed very quickly
+
+distributed caching
+obviously server has cache with cache policy
+best is to keep a global cache that cache attached to servers as servers can fail
+
+points of failure avoiding
+	another node
+	master slave strategy
+	
+NoSQL is just JSONS
+	because usually we do select * and write whole data at a time, jsons make it easier to take/access data
+	it is easy to change the scheme
+	can be scaled well
+			
+	
+	cons
+	not great with updates
+	not read optimized
+	not built for relations
+	joins are hard
+	
+
+
+
+
+
+
+

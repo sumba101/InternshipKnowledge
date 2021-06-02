@@ -1,0 +1,390 @@
+							C++ guide
+									sumanth balaji
+
+
+MENU 
+
+I shall split this into the following categories
+
+a) Helpful STL functions 
+
+b) STL containers
+
+c) Implementation things outside STL
+
+
+To go to the according categories, just do a control+F of the category name that I listed above
+
+Note: This is not beginner friendly, you must already know a good amount about already existing shit like vector and what not
+
+Note: Make sure to use space ship operator <=> for comparing between a and b
+	a<=>b gives 
+	<0 if a<b 
+	=0 if a=b
+	>0 if a>b
+
+	kinda like strcmp 
+
+
+a) Helpful STL functions 
+
+
+	The following is about custom comparison for sorting and what not 
+========================================================================
+
+For comparison of objects using STL features
+
+1) For custom objects, procede by defining an operator overloading in the definition of the class
+	struct Edge
+	{
+	    int from, to, weight;
+	    bool operator<(Edge other) const
+	    {
+	        return weight > other.weight;
+	    }
+	};
+
+or you can do it by defining boolean returning comparison functions which can then be passed into the STL functions comparison parameter
+
+bool cmp(auto a, auto b){
+	return example[a]<example[b];
+}
+
+Or you can use functors add pass the comparison metric in the STL template itself
+
+struct cmp{
+	bool operator()(int a,int b){
+		return example[a]>example[b];
+	}
+};
+
+set<int,cmp>A;
+priority_queue<int,int,cmp>B;
+
+this is similar to less<> and greater<>
+
+=========================================================================
+
+		BINARY SEARCH AND VARIANTS
+
+==============================================================================
+og binary search is
+st=0 en=n-1
+while(st<=en){
+	mid=(st+en)/2;
+	if(v[mid]==val){
+		return mid
+	}
+	else if(v[mid]<val){
+		en=mid-1
+	}else{
+		st=mid+1
+	}
+}
+
+just use the STL binary_search(A.begin(),A.end(),val_to_find,comparator_function)[ Returns Boolean]
+
+there exists variants such as lower_bound() and upper_bound() [Returns pointer, pointer-arr.begin gives index]
+
+The STL usage is similar to binary search but here are the hand written code and reason
+ 
+ lower_bound of V gives position of V if present, the leftmost position of V if multiple or gives the position of the value just smaller than V
+
+ similar but inverse logic for upper_bound
+
+Here are the equivalent implementations of upper_bound and lower_bound. This algorithm is O(log(n)) in the worst case, unlike the accepted answer which gets to O(n) in the worst case.
+
+Note that here high index is set to n instead of n - 1. These functions can return an index which is one beyond the bounds of the array. I.e., it will return the size of the array if the search key is not found and it is greater than all the array elements.
+
+int bs_upper_bound(int a[], int n, int x) {
+    int l = 0;
+    int h = n; // Not n - 1
+    while (l < h) { //note that its < and not <=
+        int mid = (l + h) / 2;
+        if (x >= a[mid]) {
+            l = mid + 1;
+        } else {
+            h = mid; //note the lack of minus 1
+        }
+    }
+    return l;
+}
+
+int bs_lower_bound(int a[], int n, int x) {
+    int l = 0;
+    int h = n; // Not n - 1
+    while (l < h) {
+        int mid = (l + h) / 2;
+        if (x <= a[mid]) {
+            h = mid;
+        } else {
+            l = mid + 1;
+        }
+    }
+    return l;
+}
+
+===============================================================================
+
+HELPFUL STL FUNCTIONS IN GENERAL ARE AS FOLLOWS:
+
+1) stable_sort()
+	doesnt change the ordering of values that are equal 
+
+2) distance(start_itr,end_itr)
+	gives the number of hops from start_itr to end_itr 
+	helps when fucking around with iterators
+
+3) is_sorted(start_itr,end_itr,comp)
+	default checks if it is ascending order
+
+4) advance(itr,n)
+	just moves the itr n steps to the right
+
+5) count(start_itr,end_itr,val)
+	gives the number of elements of value val between the iterators
+
+6) count_if(start_itr,end_itr,lambda expression)
+	similar to above
+	example of a lambda expression is [](int i){return i % 3 == 0;}
+	which counts the elements divisible by 3
+
+7) partition(start_itr,end_itr,val,lambda expression)
+	modifies the given oject ordering into two groups based on the lambda expression and returns the Iterator to the first element of the second group
+
+8) Sorting in reverse is just sort(arr,arr+n,greater<int>());
+
+==========================================================================
+	INCLUDES
+returns true if every element in second set of iterators is in the first set of iterators
+
+includes(first_itr_start,first_itr_end,second_itr_start,second_itr_end)
+
+=================================================================================
+
+b) STL containers
+
+===============================================================================
+			PAIR
+
+	    std::pair<int, double> p2(42, 0.123);
+	    This is how to initialize
+	    you can get the elements by p2.left and p2.right
+===============================================================================
+				TUPLE
+		This allows for 2 or more elements to be stored together
+
+		initialization is similar
+		    std::tuple<int, std::string, double> t2(42, "Test", -3.14);
+
+		can make use of initialiser like make_tuple
+			make_tuple(10, "Test", 3.14, std::ref(n), n); 
+
+		can get individual elements by
+			get<0>(t)
+
+		Unpacking into variables can be done using tie()
+		    tie(num, string, frac) = t2;
+
+
+====================================================================================
+			LIST
+
+		Its a doublely linked list so getting and erasing is quick
+
+
+		For erase, must give iterator to the exact element to erase
+		    std::list<int> c{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		 
+		    c.erase(c.begin());
+
+		iterator to list can be defined by
+			list<int>::iterator temp;
+
+		Can do sorting and reverse (reverse is O(N), but sort is O(NLogN))
+			    std::list<int> list = { 8,7,5,9,0,1,3,2,6,4 };
+ 
+			    std::cout << "before:     " << list << "\n";
+			    list.sort();
+			    std::cout << "ascending:  " << list << "\n";
+			    list.reverse();
+
+		Can get first and last element
+			L.front()
+			L.back()
+
+			can do .emplace_front() and .emplace_back()
+
+		There also exists .unique() that will make all contents of the list unique
+
+			SET
+================================================================================
+
+Its basically a red-black tree 
+
+count(val) returns the 1 or 0 if val present already or not
+
+find(val) gives the itr to the position which has the val
+
+emplace(val) is same as insert but alot faster
+NOTE: if the reader is not sumanth, go check out reason why emplace is faster if interested, whenever possible use emplace and not the normal method, eg emplace_back in vector and not the normie push_back. Emplace is for Alphas and Insert is for Betas
+
+erase()
+can take a val or one iterator to the position or two parameters (start_itr,end_itr)
+
+swap(set2_obj) to swap container values with that of the other set provided in the parameters
+
+you also have lower_bound() and upper_bound() functions in set with the resulting behaviour similar to STL funcitons of the same
+
+===========================================================================
+	UNORDERED_SET
+Its basically a hash map for set purposes
+its got the same shit as above set
+
+=====================================================================
+	MAP
+Its basically a red-black tree with key and value shit
+
+NOTE: for map and unordered_map you cant make complex shit into keys (eg pair or tuple or custom objects) unless you define your own hash algorithm for the key object that you are declaring
+
+swap() exists
+emplace() exists for which you pass on a pair<> object but dont be gay an just use the [] operator for assigning values or put new values
+erase() removes value of key or iterator or range of iterators
+
+============================================================================================
+	UNORDERED_MAP
+Its a hash map 
+literally the same shit as there for map
+=================================================================================
+	MULTIMAP
+Its red-black tree that can have multiple values for same key
+
+So we handle this by using equal_range() which for a given value returns a pair<start_itr,end_itr> object
+
+for the number of values with the same key you can use the count() function
+
+here is an example code snippet 
+
+  for (char c='x'; c<='z'; c++)
+  {
+    std::cout << "There are " << mymm.count(c) << " elements with key " << c << ":";
+    std::multimap<char,int>::iterator it;
+    for (it=mymm.equal_range(c).first; it!=mymm.equal_range(c).second; ++it)
+      std::cout << ' ' << (*it).second;
+    std::cout << '\n';
+  }
+
+ use emplace to add a key and value pair to the map
+
+===============================================================================================
+	STACK
+	You have the obvious top(),pop(),push(),emplace(the Alpha choice),empty() and size()
+
+==============================================================================================
+	QUEUE
+	you have the obvious push, emplace(better than push), pop
+	you have .front() and .back() for element access
+
+==============================================================================================
+	DEQUE
+
+	allows you to do pop_back() and pop_front()
+	you can do emplace_back() and emplace_front()
+
+	You can even access using [] operator for some reason
+	kinda weird shit
+
+	    vector <int> max_of_subarrays(int *arr, int n, int k)
+    {
+        deque<int> D;
+        vector <int> ans;
+        for(int i=0;i<k;i++){
+            if(i==0){
+                D.push_back(i);
+            }else{
+                while(!D.empty() && arr[D.back()]<arr[i]){
+                    D.pop_back();
+                }
+                D.push_back(i);
+            }
+        }
+        ans.emplace_back(arr[D.front()]);
+        for(int i=k;i<n;i++){
+            if(i-D.front()==k){
+                D.pop_front();
+            }
+            while(!D.empty() && arr[D.back()]<=arr[i]){
+                D.pop_back();
+            }
+            D.push_back(i);
+            ans.emplace_back(arr[D.front()]);
+            
+        }
+        return ans;
+    }
+
+
+============================================================================================
+	VECTOR
+
+	fastest way to do pop front is
+
+	void pop_front(std::vector<T> &v)
+	{
+		if (v.size() > 0) {
+		    v.erase(v.begin());
+		}
+	}
+ 
+
+===============================================================================================
+	PRIORITY QUEUE
+
+	basically a max heap by default and a min heap if you specify greater<>
+
+	    // Insert first k+1 items in a priority queue (or min
+	    // heap)
+	    //(A O(k) operation). We assume, k < n.
+	    priority_queue<int, vector<int>, greater<int> > pq(arr, arr + k + 1);
+
+	top() gives top element
+	empty() size() push() emplace() pop() are the obvious
+
+	example code
+	  std::priority_queue<int> mypq;
+
+	  mypq.push(30);
+	  mypq.push(100);
+	  mypq.push(25);
+	  mypq.push(40);
+
+	  std::cout << "Popping out elements...";
+	  while (!mypq.empty())
+	  {
+	     std::cout << ' ' << mypq.top();
+	     mypq.pop();
+	  }
+	  std::cout << '\n';
+
+
+===============================================================================================
+
+c) Implementation things outside STL
+
+	
+	SEGMENT TREE Based Stuff
+================================================================================
+
+	Shall be found in the Sample Codes
+
+	MaxFlow - Min Cut
+================================================================================
+	
+	Shall be found in the Sample Codes
+
+	Trie
+=================================================================================
+	
+	Shall be found in the Sample Codes
+
+

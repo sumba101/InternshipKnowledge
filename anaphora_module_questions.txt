@@ -1,0 +1,44 @@
+whats the purpose of apertium-anaphora.pc and apertium-anaphora.pc.in
+
+change in cmake.sh
+    > is used for string comparison, use -gt instead
+      line number 5
+      link for better explaination:- https://github.com/koalaman/shellcheck/wiki/SC2071
+unused header files in anaphora.cc
+
+in anaphora.cc
+  change request
+    line number 67
+
+  change 1 to true
+    line number 97
+
+  change 0's to nullptr
+    lines 101 to 104
+
+  change else if to else
+      line 236
+
+  change gen_id++ to ++gen_id
+      line 240
+
+  remove line 284
+
+un used library headers in most of these
+
+in parse_arx.cc
+    remove redundant return; in line 102
+    change NULL to nullptr in line 82
+        above two are repeated in order places of the code
+
+    const correctness in line 129 and 221
+
+    making functions in parse_arx.h static
+
+in pattern_arx.h
+    line 30 and line 29
+      structs are not initialized, would be better as a class with constructors right?
+
+check out his header file declarations and protocol
+
+in patttern_arx.cc

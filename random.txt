@@ -1,0 +1,378 @@
+Nice Questions to Look at:
+	https://practice.geeksforgeeks.org/problems/trapping-rain-water-1587115621/1#
+	spiral 2d array printing
+	https://www.geeksforgeeks.org/find-n-th-lexicographically-permutation-string-set-2/
+	https://practice.geeksforgeeks.org/problems/get-minimum-element-from-stack/1#
+		This question shows how to embed minimum till now in a stack by storing 2*x-min instead of x in stack
+			Note 2*x-min, here min is the previous min before min is updated
+	https://practice.geeksforgeeks.org/problems/circular-tour/1#
+	https://www.geeksforgeeks.org/lru-cache-implementation/
+	https://practice.geeksforgeeks.org/problems/print-a-binary-tree-in-vertical-order/1#
+	https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1	
+	https://practice.geeksforgeeks.org/problems/number-of-paths0926/1
+	https://practice.geeksforgeeks.org/problems/rightmost-different-bit-1587115621/1#
+	https://practice.geeksforgeeks.org/problems/josephus-problem/1#
+	https://www.geeksforgeeks.org/find-the-smallest-window-in-a-string-containing-all-characters-of-another-string/
+	Very important: https://www.geeksforgeeks.org/k-th-element-two-sorted-arrays/
+					https://www.geeksforgeeks.org/median-of-two-sorted-arrays/
+
+	https://practice.geeksforgeeks.org/problems/n-queen-problem0315/1#	
+
+	https://practice.geeksforgeeks.org/problems/circle-of-strings4530/1#
+	https://practice.geeksforgeeks.org/problems/alien-dictionary/1
+	https://practice.geeksforgeeks.org/problems/snake-and-ladder-problem4816/1
+
+
+===========================================================================================================
+
+Seive of Erasthonos:
+	creation complexity is nlog(log(n))
+	n(1/2 + 1/3 + 1/5....) = n(log(log(n)))
+
+Radix is just counting sort but on the exponential bases
+
+Properties of modulo are
+	( a + b) % c = ( ( a % c ) + ( b % c ) ) % c
+    ( a * b) % c = ( ( a % c ) * ( b % c ) ) % c
+    ( a – b) % c = ( ( a % c ) – ( b % c ) ) % c
+    The below is FALSE and does not hold
+    ( a / b ) % c = ( ( a % c ) / ( b % c ) ) % c
+
+Big Endian Little Endian
+	Explanation:
+		Endianness is about byte address order. Little endian means the lower significant bytes get the lower addresses. Big endian means the other way around. So it's about the bytes (8-bit chunks) not nibbles (4-bit chunks). Most computers we use (there are a few exceptions) address bytes at the individual address level.
+
+		So bigendian is how we would normally write the binary, Little endian is the byte-wise reverse of it
+
+		Taking the -12 example:
+
+		Little endian, in memory, would be:
+
+		000000: F4
+		000001: FF
+
+		Big endian, in memory, would be:
+
+		000000: FF
+		000001: F4
+
+	Does endianness affects file formats?
+
+	File formats which have 1 byte as a basic unit are independent of endianness e.g., ASCII files . Other file formats use some fixed endianness forrmat e.g, JPEG files are stored in big endian format.
+
+
+Reason for both existing:
+	Each byte-order system has its advantages. Little-endian machines let you read the lowest-byte first, without reading the others. You can check whether a number is odd or even (last bit is 0) very easily, which is cool if you're into that kind of thing. Big-endian systems store data in memory the same way we humans think about data (left-to-right), which makes low-level debugging easier.
+
+
+
+Merge Sort:
+	Example code
+
+	void merge(long long a[],int start,int mid, int end){
+    long long b[mid-start+1];
+    long long c[end-mid+1];
+    for(int i=start;i<=mid;i++){
+        b[i]=a[i];
+    }
+    for(int i=mid+1;i<end;i++){
+        c[i]=a[i];
+    }
+    
+    int i=0,j=0;
+    int itr = start;
+    while(i<mid-start+1 && j<end-mid+1){
+        if(b[i]>c[j]){
+            count++;
+            a[itr++] = c[j++];
+        }else{
+            a[itr++]=b[i++];
+        }
+    }
+    
+    while(i<mid-start+1){
+        a[itr++]=b[i++];
+    }
+    while(j<end-mid+1){
+        a[itr++]=c[j++];
+    }
+}
+
+
+void mergesort(long long arr[],int start,int end){
+    if(start<end){
+        int mid = start + (end-start)/2;
+        mergesort(arr,start,mid);
+        mergesort(arr,mid+1,end);
+        merge(arr,start,mid,end);
+        
+    }
+}
+long long int inversionCount(long long arr[], long long N)
+{
+    mergesort(arr,0,N-1);
+    return count;
+}
+
+
+Do spiral matrix before interview:
+	https://practice.geeksforgeeks.org/problems/spirally-traversing-a-matrix-1587115621/1#
+
+
+QuickSort:
+
+void printArray(int arr[], int size)
+{
+    int i;
+    for (i=0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+    int partition(int arr[],int start,int end){
+        int p=start-1; // NOTE THIS, THIS IS IMPORTANT
+        int pivot=end;
+        for(int i=start;i<=end-1;i++){
+            if(arr[i]<arr[pivot]){
+                swap(arr[++p],arr[i]); 
+            }
+        }
+        swap(arr[++p],arr[pivot]); // We finish by putting that random element to the place pivot was
+        
+        for(int i=start;i<=end;i++){
+            cout<<arr[i]<<" ";
+        }
+        cout<<"\nexiting partition\n";
+        return p;
+    }
+    
+    void quicksort(int arr[], int start,int end){
+        if(start<end){
+            int p=partition(arr,start,end);
+            quicksort(arr,start,p-1); // Note how the quicksort works on the subsets without the pivot element, cos pivot element is correct and fixed
+            quicksort(arr,p+1,end);
+        }
+    }
+
+// Driver program to test above functions
+int main()
+{
+    int arr[] = {2, 7, 13, 9, 1, 5};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    quicksort(arr, 0, n-1);
+    printf("Sorted array: \n");
+    printArray(arr, n);
+    return 0;
+}
+
+
+Quick Select:
+
+    void quickselect(int arr[], int start,int end,int k){
+        if(start==end && k == start+1){
+            cout<<"kth is: "<<arr[k-1]<<endl;
+        }
+        if(start<end){
+            int p=partition(arr,start,end);
+
+            if(p+1==k){
+                cout<<"kth is: "<<arr[k-1]<<endl;
+            }
+            else if(p+1>k){
+                quickselect(arr,start,p-1,k); // Note how the quicksort works on the subsets without the pivot element, cos pivot element is correct and fixed
+            }else{
+                quickselect(arr,p+1,end,k);
+            }
+        }
+    }
+
+
+TIME COMPLEXITY ANALYSIS:
+
+WORST CASE IN QUICKSORT IS IF partition chosen is leaves subarry of size 0 and size n-1 everytime
+	goes to O(n^2)
+Worst case in merge sort is if it is already sorted in decreasing order
+
+IF we want a way that doesnt make use of swaps, selection sort is the way
+
+Binary search vs Ternary Search
+	Binary search T(n)= T(n/2) + 2c (compare mid point equality, compare against midpoint)
+	T(n)= 2.c.log2n 
+
+	Ternary search T(n)= T(n/3) + 4c(compare to mid1, compare to mid2, compare equality with mid1,and mid2)
+	T(n) = 4.c.log3n
+
+	Compare 2c.log2n vs 4c.log3n
+	That is,  log2n vs 2.log3n
+	log2n vs 2.log2n/ log23
+	1 vs 2 /log23
+	But  1<log23<2
+	Thus 2/log23 >1
+	Thus, 2c.log2n < 4c.log3n
+
+Binary Merge sort vs Ternary Merge sort:
+	Binary mergesort:  T(n)= 2T(n/2) + c.n
+	T(n)= n. c.log2n 
+
+	Ternary search T(n)= 3T(n/3) + 2cn
+	T(n) = 2.c.n.log3n
+
+	Compare n.c.log2n vs 2.n.c.log3n
+	That is,  log2n vs 2.log3n
+	log2n vs 2.log2n/ log23
+	1 vs 2 /log23
+	But  1<log23<2
+	Thus 2/log23 >1
+	Thus, n.c.log2n < 2nc.log3n
+
+
+Infix to PostFix and Infix to Prefix
+Infix to Postfix
+If ( push
+If ) pop and print everything on stack until (
+If operand print
+If operator, 
+       (a)-pop and print elements on stack of same or higher priority. If no such elements then do nothing.
+       (b)-push operator
+
+Priority order (, +-,  */, ^
+
+Infix to Prefix
+
+    Step 1: Reverse the infix expression i.e A+B*C will become C*B+A. Note while reversing each ‘(‘ will become ‘)’ and each ‘)’ becomes ‘(‘.
+    Step 2: Obtain the “nearly” postfix expression of the modified expression i.e CB*A+.
+    Step 3: Reverse the postfix expression. Hence in our example prefix is +A*BC.
+
+ for evaluation of postfix, go left to right, push operands in and if operator pop two, operate and push oprand in stack
+ for evaluation of prefix follow same algo put in reverse of the prefix expression
+
+ In notations:
+ 	O() is upper bound
+ 	Omega is lower bound
+ 	Theta is middle bound, i.e A function  f(n) belongs to the set theat(g(n)) if there exist positive constants c1 and c2 such that it can be “sand- wiched” between c1g(n) and c2g(n) for sufficienly large n.
+
+MASTER METHOD:
+	T(n) = a T(n/b) + f (n)
+	a>=1, b>1, f is asymptotically positive
+
+	Exceptions:
+		- T(n) has to be monotonically increasing.
+         wont work on T(n)= sin x
+		- Has to be of form T(n) = a T(n/b) + f (n) , 
+		         wont work on T(n) = a T(n/b) + cT(n/d) + f (n) ,
+		 - f(n) should be asymptotically positive polynomial.
+		           wont work when f(n) = n log n
+		- The constants a, b should be of form b>1 and a>=1
+		            wont work on T(n) = T(n-2) +n
+		- More of “wont work” -- T(n) = T ( sqrt(n))
+
+
+	if( f(n) < n^(log a base b))
+		return O(n^(log a base b))
+	else if (f(n) > n^(log a base b))
+		return O(f(n))
+	else
+		return O(n^(log a base b) * Log n)
+
+BINARY TREES:
+	Max nodes in a FBT of height H ? 2H+1 -1
+	If n nodes then what is the min height ?  Log(N+1/2)
+	Max leaf nodes (L) in FBT of n nodes? 2H (induction)
+	Number of internal nodes(I)  in FBT of n nodes? 2H-1 
+
+
+	Inorder: Left Root Right
+	Pre Order: Root Left Right
+	Post order: Left Right Root
+		basically its the priority of the root that varies
+
+HEAPs:
+	building heap is O(n) not O(nLogN) because you start the algo from n/2-1 th index.
+	Also remember if for example you want kth smallest number, you use MAX heap, cos the top most element in the k size max heap would be the kth smallest of that collection. If you encounter a number smaller than that you pop the heap and do a heapify with the value to add
+
+LISTs:
+	Two important problems that explain a little on how to think
+
+	For intersection point given two pointers p1 p2
+		Initialize two pointers ptr1 and ptr2  at the head1 and  head2.
+		Traverse through the lists,one node at a time.
+		When ptr1 reaches the end of a list, then redirect it to the head2.
+		similarly when ptr2 reaches the end of a list, redirect it the head1.
+		Once both of them go through reassigning,hey will be equidistant from
+		 the collision point
+		If at any node ptr1 meets ptr2, then it is the intersection node.
+		After second iteration if there is no intersection node it returns NULL
+	For removing of the loop 
+		    This method is also dependent on Floyd's Cycle detection algorithm.
+		    Detect Loop using Floyd's Cycle detection algorithm and get the pointer to a loop node.
+		    Count the number of nodes in loop. Let the count be k.
+		    Fix one pointer to the head and another to a kth node from the head.
+		    Move both pointers at the same pace, they will meet at loop starting node.
+		    Get a pointer to the last node of the loop and make next of it as NULL.
+
+		    OR
+		    after detecting a loop, start the slow pointer from the head and fast pointer from loop detection point. Move both at same speed. They will meet each other again at loop start. 
+		    math for this can be found here https://practice.geeksforgeeks.org/problems/remove-loop-in-linked-list/1
+
+		    
+BITs:
+
+ffs(n) gives location of least significant bit in n,i.e leftmost set bit
+twos complement is just !n+1
+to find right most bit representation = n&-n
+to find total of bits that are there is to loop on n -> n=(n)&(n-1)
+	that n&n-1 always removes the right most bit(i.e least significant bit)
+
+0xAAAAAAAA is representation for 32 bit number with even spots as 1 and odd bits as 0
+0x55555555 is representation for 32 bit number with odd spots as 1 and even bits as 0
+Here is an example function that swaps odd position bit value with adjacent even position bit value
+    unsigned int swapBits(unsigned int n)
+    {
+    	unsigned int t1= n & 0xAAAAAAAA;
+    	unsigned int t2= n & 0x55555555;
+        t1>>=1;
+        t2<<=1;
+    	return t1|t2;
+
+    }
+VERY IMPORTANT QUESTIONS AND THEIR VARIANTS
+https://www.geeksforgeeks.org/find-maximum-subset-xor-given-set/
+https://www.geeksforgeeks.org/find-the-maximum-subarray-xor-in-a-given-array/
+https://www.geeksforgeeks.org/maximum-xor-of-two-numbers-in-an-array/
+https://www.geeksforgeeks.org/count-total-set-bits-in-all-numbers-from-1-to-n/
+
+REASON THAT Strongly connected components algorithm works is max finish time of nodes in one scc component must be greater than max finish time of nodes in another scc component
+So by starting in descending order of max finish times we complete off SCC by SCC
+
+The number of spanning trees possible is equal to (edges)C(vertices-1) - (number of cycles)
+
+
+Djikstras and Bellman ford :
+
+Djikstras cant work in negative weights, Bellman ford can
+Bellman ford can work in distributed system so its preferred even tho djikstras algorithm is smaller time complexity
+Djikstras complexity is O(ELog(V)) while Bellmans is O(VE)
+
+Prims vs Kruskals
+p) It starts to build the Minimum Spanning Tree from any vertex in the graph.	
+k) It starts to build the Minimum Spanning Tree from the vertex carrying minimum weight in the graph.
+
+p) It traverses one node more than one time to get the minimum distance.	
+k) It traverses one node only once.
+
+p) Prim’s algorithm has a time complexity of O(V2), V being the number of vertices and can be improved up to O(E + log V) using Fibonacci heaps.	
+k) Kruskal’s algorithm’s time complexity is O(E log V), V being the number of vertices.
+
+p) Prim’s algorithm gives connected component as well as it works only on connected graph.	
+k) Kruskal’s algorithm can generate forest(disconnected components) at any instant as well as it can work on disconnected components
+
+p) Prim’s algorithm runs faster in dense graphs.	
+k) Kruskal’s algorithm runs faster in sparse graphs.
+
+THESE BOTH DONT WORK WELL FOR DIRECTED GRAPHS
+	https://www.geeksforgeeks.org/why-prims-and-kruskals-mst-algorithm-fails-for-directed-graph/
+	Prim’s algorithm assumes that all vertices are connected. But in a directed graph, every node is not reachable from every other node. So, Prim’s algorithm fails due to this reason.
+
+	In Kruskal’s algorithm, In each step, it is checked that if the edges form a cycle with the spanning-tree formed so far. But Kruskal’s algorithm fails to detect the cycles in a directed graph as there are cases when there is no cycle between the vertices but Kruskal’s Algorithm assumes it to cycle and don’t take consider some edges due to which Kruskal’s Algorithm fails for directed graph.
+
+	Edmunds algorithm (https://en.wikipedia.org/wiki/Edmonds%27_algorithm) is used for MST for directed graphs
