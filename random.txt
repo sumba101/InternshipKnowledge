@@ -21,7 +21,10 @@ Nice Questions to Look at:
 	https://practice.geeksforgeeks.org/problems/circle-of-strings4530/1#
 	https://practice.geeksforgeeks.org/problems/alien-dictionary/1
 	https://practice.geeksforgeeks.org/problems/snake-and-ladder-problem4816/1
-
+	https://practice.geeksforgeeks.org/problems/0-1-knapsack-problem0945/1#	
+		Make sure to also see greedy knapsack as well as job scheduling
+	https://practice.geeksforgeeks.org/problems/egg-dropping-puzzle-1587115620/1#
+	https://practice.geeksforgeeks.org/problems/subset-sum-problem2014/1#
 
 ===========================================================================================================
 
@@ -376,3 +379,39 @@ THESE BOTH DONT WORK WELL FOR DIRECTED GRAPHS
 	In Kruskal’s algorithm, In each step, it is checked that if the edges form a cycle with the spanning-tree formed so far. But Kruskal’s algorithm fails to detect the cycles in a directed graph as there are cases when there is no cycle between the vertices but Kruskal’s Algorithm assumes it to cycle and don’t take consider some edges due to which Kruskal’s Algorithm fails for directed graph.
 
 	Edmunds algorithm (https://en.wikipedia.org/wiki/Edmonds%27_algorithm) is used for MST for directed graphs
+
+FOR STRING MATCHING:
+	Three major methods:
+		Rabin Karp Algorithm:
+			In this the pattern is hashed and the corresponding substrings of the main string are hashed and compared with the hash of the pattern.
+
+			The average and best-case running time of the Rabin-Karp algorithm is O(n+m), but its worst-case time is O(nm). Worst case of Rabin-Karp algorithm occurs when all characters of pattern and text are same as the hash values of all the substrings of txt[] match with hash value of pat[].
+
+		KMP Algorithm
+			In this we maintain an array with data about The longest proper prefix of pattern which is also a suffic of pattern
+			Examples of lps[] construction:
+				For the pattern “AAAA”, 
+				lps[] is [0, 1, 2, 3]
+
+				For the pattern “ABCDE”, 
+				lps[] is [0, 0, 0, 0, 0]
+
+				For the pattern “AABAACAABAA”, 
+				lps[] is [0, 1, 0, 1, 2, 0, 1, 2, 3, 4, 5]
+
+				For the pattern “AAACAAAAAC”, 
+				lps[] is [0, 1, 2, 0, 1, 2, 3, 3, 3, 4] 
+
+				For the pattern “AAABAAA”, 
+				lps[] is [0, 1, 2, 0, 1, 2, 3]
+
+			KMP Algorithm : It can work quite well, if your alphabet is small (e.g. DNA bases), as we get a higher chance that our search patterns contain reusable sub-patterns.
+
+			The time complexity of KMP algorithm is O(n) in the worst case.
+
+		Bayer Moore algorithm
+
+
+			Boyer Moore Algorithm : It works particularly well for long search patterns. In particular, it can be sub-linear, as we do not need to read every single character of our string.
+
+			The Bad Character Heuristic may take O(mn) time in worst case. The worst case occurs when all characters of the text and pattern are same. For example, txt[] = “AAAAAAAAAAAAAAAAAA” and pat[] = “AAAAA”. The Bad Character Heuristic may take O(n/m) in the best case. The best case occurs when all all the characters of the text and pattern are different. 

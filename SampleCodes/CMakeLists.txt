@@ -3,4 +3,4 @@ project(SampleCodes)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(SampleCodes MinimumSpanningTree.cpp)
+add_executable(SampleCodes SegmentTree.cpp)
