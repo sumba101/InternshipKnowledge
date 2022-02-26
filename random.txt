@@ -1,4 +1,5 @@
 Nice Questions to Look at:
+	https://www.geeksforgeeks.org/find-number-pairs-xy-yx/
 	https://practice.geeksforgeeks.org/problems/trapping-rain-water-1587115621/1#
 	spiral 2d array printing
 	https://www.geeksforgeeks.org/find-n-th-lexicographically-permutation-string-set-2/
@@ -192,7 +193,7 @@ Quick Select:
 
 TIME COMPLEXITY ANALYSIS:
 
-WORST CASE IN QUICKSORT IS IF partition chosen is leaves subarry of size 0 and size n-1 everytime
+WORST CASE IN QUICKSORT IS IF partition chosen leaves subarry of size 0 and size n-1 everytime
 	goes to O(n^2)
 Worst case in merge sort is if it is already sorted in decreasing order
 
@@ -278,10 +279,26 @@ MASTER METHOD:
 		return O(n^(log a base b) * Log n)
 
 BINARY TREES:
-	Max nodes in a FBT of height H ? 2H+1 -1
+	Max nodes in a FBT of height H ? 2^H+1 -1
 	If n nodes then what is the min height ?  Log(N+1/2)
 	Max leaf nodes (L) in FBT of n nodes? 2H (induction)
 	Number of internal nodes(I)  in FBT of n nodes? 2H-1 
+
+
+	In Binary tree where every node has 0 or 2 children, the number of leaf nodes is always one more than nodes with two children.
+
+	L = T + 1
+	Where L = Number of leaf nodes
+	T = Number of internal nodes with two children
+	Proof:
+		No. of leaf nodes (L) i.e. total elements present at the bottom of tree = 
+		2h-1 (h is height of tree)
+		No. of internal nodes = {total no. of nodes} - {leaf nodes} = 
+		{ 2h - 1 } - {2h-1} = 2h-1 (2-1) - 1 = 2h-1 - 1
+		So , L = 2h-1
+		     T = 2h-1 - 1
+		Therefore L = T + 1
+		Hence proved
 
 
 	Inorder: Left Root Right
@@ -320,9 +337,9 @@ LISTs:
 		    
 BITs:
 
-ffs(n) gives location of least significant bit in n,i.e leftmost set bit
+ffs(n) gives location of least significant bit in n,i.e rightmost set bit
 twos complement is just !n+1
-to find right most bit representation = n&-n
+to find left most bit representation = n&-n
 to find total of bits that are there is to loop on n -> n=(n)&(n-1)
 	that n&n-1 always removes the right most bit(i.e least significant bit)
 
@@ -415,3 +432,22 @@ FOR STRING MATCHING:
 			Boyer Moore Algorithm : It works particularly well for long search patterns. In particular, it can be sub-linear, as we do not need to read every single character of our string.
 
 			The Bad Character Heuristic may take O(mn) time in worst case. The worst case occurs when all characters of the text and pattern are same. For example, txt[] = “AAAAAAAAAAAAAAAAAA” and pat[] = “AAAAA”. The Bad Character Heuristic may take O(n/m) in the best case. The best case occurs when all all the characters of the text and pattern are different. 
+
+
+Left to solve:
+	https://practice.geeksforgeeks.org/problems/longest-palindrome-in-a-string3411/1
+		:https://www.geeksforgeeks.org/longest-palindromic-substring-set-2/
+	https://practice.geeksforgeeks.org/problems/recursively-remove-all-adjacent-duplicates0744/1#
+		:https://www.geeksforgeeks.org/recursively-remove-adjacent-duplicates-given-string/
+	https://practice.geeksforgeeks.org/problems/box-stacking/1
+		:
+	https://practice.geeksforgeeks.org/problems/cutted-segments1642/1#
+	https://practice.geeksforgeeks.org/problems/minimum-sum-partition3317/1
+	https://practice.geeksforgeeks.org/problems/optimal-strategy-for-a-game-1587115620/1 [LOOK AT THIS IF YOU HAVE TIME]
+		:https://www.geeksforgeeks.org/optimal-strategy-for-a-game-dp-31/
+
+
+What I enjoy most is the ability convert research and advancements in fields into real world and realisable impact for users in general public. This has always been my greatest of interest and love towards the field.
+
+Current area of focus is in a clause recommendation framework for aiding in contract authoring. It is an expansion and attempt of improvement on existing paper by adobe research team called ClauseRec: A Clause Recommendation Framework for AI-aided Contract Authoring. Working with guidance from authors behind initial paper from Adobe.
+

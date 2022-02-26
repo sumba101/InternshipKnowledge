@@ -248,7 +248,7 @@ Its basically a red-black tree with key and value shit
 NOTE: for map and unordered_map you cant make complex shit into keys (eg pair or tuple or custom objects) unless you define your own hash algorithm for the key object that you are declaring
 
 swap() exists
-emplace() exists for which you pass on a pair<> object but dont be gay an just use the [] operator for assigning values or put new values
+emplace() exists for which you pass on a pair<> object but dont be stupid and just use the [] operator for assigning values or put new values
 erase() removes value of key or iterator or range of iterators
 
 ============================================================================================
@@ -294,7 +294,7 @@ here is an example code snippet
 	You can even access using [] operator for some reason
 	kinda weird shit
 
-	    vector <int> max_of_subarrays(int *arr, int n, int k)
+	vector <int> max_of_subarrays(int *arr, int n, int k)
     {
         deque<int> D;
         vector <int> ans;
